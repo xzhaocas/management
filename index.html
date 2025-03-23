@@ -54,9 +54,25 @@
                 event.preventDefault();
                 const url = urlInput.value;
                 const category = categoryInput.value;
-                // 这里后续可以添加存储和展示逻辑
+                // 添加存储和展示逻辑
+                const listItem = document.createElement('li');
+                listItem.textContent = `${category}: ${url}`;
+                websiteList.appendChild(listItem);
+                // 存储到本地存储
+                let websites = JSON.parse(localStorage.getItem('websites')) || [];
+                websites.push({ category, url });
+                localStorage.setItem('websites', JSON.stringify(websites));
                 urlInput.value = '';
                 categoryInput.value = '';
+            });
+            // 页面加载时从本地存储中恢复数据
+            window.addEventListener('load', function() {
+                let websites = JSON.parse(localStorage.getItem('websites')) || [];
+                websites.forEach((website) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${website.category}: ${website.url}`;
+                    websiteList.appendChild(listItem);
+                });
             });
         </script>
     </div>
