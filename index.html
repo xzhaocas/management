@@ -7,8 +7,8 @@
     <title>网址管理网站</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f4f4f4 0%, #e0e0e0 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,19 +18,46 @@
         .container {
             text-align: center;
             background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 400px;
         }
         form {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         input, select, button {
-            margin: 5px;
-            padding: 8px;
+            margin: 8px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         #website-list {
             text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        #website-list li {
+            list-style-type: none;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        #website-list li:hover {
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -50,29 +77,38 @@
             const categoryInput = document.getElementById('category');
             const websiteList = document.getElementById('website-list');
 
+            function displayWebsites() {
+                let websites = JSON.parse(localStorage.getItem('websites')) || [];
+                websiteList.innerHTML = '';
+                websites.forEach((website) => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = website.url;
+                    link.textContent = website.url;
+                    link.target = '_blank';
+                    const categorySpan = document.createElement('span');
+                    categorySpan.textContent = ` (${website.category})`;
+                    listItem.appendChild(link);
+                    listItem.appendChild(categorySpan);
+                    websiteList.appendChild(listItem);
+                });
+            }
+
             websiteForm.addEventListener('submit', function(event) {
                 event.preventDefault();
                 const url = urlInput.value;
                 const category = categoryInput.value;
                 // 添加存储和展示逻辑
-                const listItem = document.createElement('li');
-                listItem.textContent = `${category}: ${url}`;
-                websiteList.appendChild(listItem);
-                // 存储到本地存储
                 let websites = JSON.parse(localStorage.getItem('websites')) || [];
                 websites.push({ category, url });
                 localStorage.setItem('websites', JSON.stringify(websites));
                 urlInput.value = '';
                 categoryInput.value = '';
+                displayWebsites();
             });
             // 页面加载时从本地存储中恢复数据
             window.addEventListener('load', function() {
-                let websites = JSON.parse(localStorage.getItem('websites')) || [];
-                websites.forEach((website) => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${website.category}: ${website.url}`;
-                    websiteList.appendChild(listItem);
-                });
+                displayWebsites();
             });
         </script>
     </div>
