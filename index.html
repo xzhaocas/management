@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址管理网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, select, button {
+            margin: 5px;
+            padding: 8px;
+        }
+        #website-list {
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>网址管理网站</h1>
+        <form id="website-form">
+            <input type="text" id="url" placeholder="输入网址" required>
+            <input type="text" id="category" placeholder="输入分类" required>
+            <button type="submit">添加网址</button>
+        </form>
+        <div id="website-list"></div>
+        <script>
+            const websiteForm = document.getElementById('website-form');
+            const urlInput = document.getElementById('url');
+            const categoryInput = document.getElementById('category');
+            const websiteList = document.getElementById('website-list');
+
+            websiteForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const url = urlInput.value;
+                const category = categoryInput.value;
+                // 这里后续可以添加存储和展示逻辑
+                urlInput.value = '';
+                categoryInput.value = '';
+            });
+        </script>
+    </div>
+</body>
+</html>
